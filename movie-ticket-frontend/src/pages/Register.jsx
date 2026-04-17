@@ -10,55 +10,38 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'user' // Default role
+    role: 'USER' // Default role uppercase
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-    
-  //   if (formData.password !== formData.confirmPassword) {
-  //     setError('Mật khẩu xác nhận không khớp.');
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   setError('');
-
-  //   try {
-  //     await axiosClient.post('/register', formData);
-  //     console.log('Register success');
-  //     navigate('/login');
-  //   } catch (err) {
-  //     console.error('Register error:', err);
-  //     setError(err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại sau.');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // Nếu bạn muốn sửa nhanh trong Register.jsx để test:
-const handleSubmit = async (e) => {
-  if (formData.password !== formData.confirmPassword) {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
       setError('Mật khẩu xác nhận không khớp.');
       return;
     }
-  
-  try {
-    // Gọi trực tiếp IP của Service, bỏ qua config cũ của axiosClient nếu cần
-    await axios.post('http://172.16.55.44:8081/register', {
-      userName: formData.userName,
-      email: formData.email,
-      password: formData.password,
-      role: formData.role
-    });
-    
-    navigate('/login');
-  } catch (err) {
-    // ... xử lý lỗi
-  }
-};
+
+    setLoading(true);
+    setError('');
+
+    try {
+      await axiosClient.post('/users/register', {
+        userName: formData.userName,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role
+      });
+      console.log('Register success');
+      // Chuyển về login ngay khi thành công
+      navigate('/users/login', { state: { message: "Đăng ký thành công! Vui lòng đăng nhập." } });
+    } catch (err) {
+      console.error('Register error:', err);
+      setError(err.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại sau.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50/50 p-4 relative overflow-hidden">
@@ -183,7 +166,7 @@ const handleSubmit = async (e) => {
           <div className="mt-8 text-center bg-gray-50/80 rounded-2xl p-4 border border-gray-100">
             <p className="text-sm font-medium text-gray-600">
               Đã có tài khoản?{' '}
-              <Link to="/login" className="text-indigo-600 hover:text-indigo-800 font-bold transition-colors">
+              <Link to="/users/login" className="text-indigo-600 hover:text-indigo-800 font-bold transition-colors">
                 Trở lại đăng nhập
               </Link>
             </p>

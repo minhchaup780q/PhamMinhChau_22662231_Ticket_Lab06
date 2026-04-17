@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import axiosClient from '../api/axiosClient';
 import { Film, ShoppingCart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const MovieList = ({ onSelectMovie }) => {
+const MovieList = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         setLoading(true);
-        const res = await axiosClient.get('/api/movies');
+        const res = await axiosClient.get('/movies');
         // Ensure data is an array
         setMovies(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
@@ -68,7 +70,7 @@ const MovieList = ({ onSelectMovie }) => {
                     <p className="text-xl font-black text-red-600">{Number(movie.pricePerSeat || 0).toLocaleString()}đ</p>
                   </div>
                   <button
-                    onClick={() => onSelectMovie(movie)}
+                    onClick={() => navigate(`/booking/${movie.id}`)}
                     className="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 hover:scale-110 active:scale-95 transition-all shadow-lg shadow-blue-500/20"
                   >
                     <ShoppingCart size={20} />
