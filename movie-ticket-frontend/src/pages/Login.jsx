@@ -38,10 +38,21 @@ const Login = () => {
         throw new Error('Không nhận được token từ server');
       }
 
-      // 🔥 FIX: Thêm prefix "ROLE_" vào role để phù hợp với ProtectedRoute
+      // 🔥 Chuyển đổi role
+      let userRole;
+      let redirectPath;
+      
+      if (role === 'ADMIN') {
+        userRole = 'ROLE_ADMIN';
+        redirectPath = '/admin';  // ADMIN vào dashboard
+      } else {
+        userRole = 'ROLE_USER';
+        redirectPath = '/movies';  // USER vào movies
+      }
+
       const userData = {
         username: userName,
-        role: role === 'USER' ? 'ROLE_USER' : 'ROLE_ADMIN',  // Chuyển đổi role
+        role: userRole,
       };
 
       localStorage.setItem('accessToken', token);
@@ -49,10 +60,12 @@ const Login = () => {
       
       console.log('Saved to localStorage:', {
         accessToken: localStorage.getItem('accessToken'),
-        user: localStorage.getItem('user')
+        user: localStorage.getItem('user'),
+        redirectTo: redirectPath
       });
 
-      navigate('/movies');
+      // Chuyển hướng dựa trên role
+      navigate(redirectPath);
 
     } catch (err) {
       console.error('Login error:', err);
