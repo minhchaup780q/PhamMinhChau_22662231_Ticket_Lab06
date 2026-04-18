@@ -57,10 +57,10 @@ const Navbar = () => {
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-2xl border border-gray-100">
                   <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
-                    {user?.userName?.[0]?.toUpperCase() || 'U'}
+                    {user?.username?.[0]?.toUpperCase() || 'U'}
                   </div>
                   <span className="text-sm font-bold text-gray-700 max-w-[100px] truncate">
-                    {user?.userName || 'User'}
+                    {user?.username || 'User'}
                   </span>
                 </div>
 

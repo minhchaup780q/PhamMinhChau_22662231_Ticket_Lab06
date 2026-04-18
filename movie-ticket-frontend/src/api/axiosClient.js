@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  // Nhắc bạn Người 4 (Booking Service) cung cấp IP/Port Gateway
-  baseURL: 'http://localhost:8888/api',
-    // baseURL: 'http://172.20.35.147:8888/api',  
+    baseURL: 'http://172.16.33.175:8888/api',  
   headers: {
     'Content-Type': 'application/json',
   },

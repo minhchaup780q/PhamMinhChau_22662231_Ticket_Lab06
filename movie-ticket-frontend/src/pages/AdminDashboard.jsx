@@ -8,7 +8,7 @@ const AdminDashboard = () => {
   const [showForm, setShowForm] = useState(false)
   const [newMovie, setNewMovie] = useState({
     title: '',
-    duration_minutes: '',
+    durationMinutes: '',
     pricePerSeat: '',
     description: ''
   });
@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   // 1. Lấy danh sách phim để hiển thị
   const fetchMovies = async () => {
     try {
-      const res = await axiosClient.get('/api/movies');
+      const res = await axiosClient.get('/movies');
       setMovies(res.data);
     } catch (err) {
       console.error("Lỗi lấy danh sách phim", err);
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
     try {
       await axiosClient.post('/api/movies', newMovie);
       alert("Thêm phim thành công!");
-      setNewMovie({ title: '', duration_minutes: '', pricePerSeat: '', description: '' });
+      setNewMovie({ title: '', durationMinutes: '', pricePerSeat: '', description: '' });
       setShowForm(false);
       fetchMovies(); // Load lại danh sách
     } catch (err) {
@@ -73,8 +73,8 @@ const AdminDashboard = () => {
               <input 
                 required type="number" 
                 className="mt-1 block w-full border rounded-md p-2"
-                value={newMovie.duration_minutes}
-                onChange={(e) => setNewMovie({...newMovie, duration_minutes: e.target.value})}
+                value={newMovie.durationMinutes}
+                onChange={(e) => setNewMovie({...newMovie, durationMinutes: e.target.value})}
               />
             </div>
             <div>
@@ -116,7 +116,7 @@ const AdminDashboard = () => {
             {movies.map((m) => (
               <tr key={m.id} className="border-b last:border-none hover:bg-gray-50 transition">
                 <td className="p-4 font-medium">{m.title}</td>
-                <td className="p-4 flex items-center gap-1 text-gray-500"><Clock size={16}/> {m.duration_minutes}m</td>
+                <td className="p-4 flex items-center gap-1 text-gray-500"><Clock size={16}/> {m.durationMinutes}m</td>
                 <td className="p-4 text-blue-600 font-bold">{Number(m.pricePerSeat).toLocaleString()}đ</td>
                 <td className="p-4">
                   <button className="text-red-500 hover:text-red-700"><Trash2 size={18}/></button>
